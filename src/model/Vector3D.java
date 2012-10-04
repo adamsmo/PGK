@@ -1,38 +1,38 @@
 package model;
 
 public class Vector3D {
-  private long x;
-  private long y;
-  private long z;
+  private double x;
+  private double y;
+  private double z;
 
-  public Vector3D(long x, long y, long z) {
+  public Vector3D(double x, double y, double z) {
     super();
     this.x = x;
     this.y = y;
     this.z = z;
   }
 
-  public long getX() {
+  public double getX() {
     return x;
   }
 
-  public void setX(long x) {
+  public void setX(double x) {
     this.x = x;
   }
 
-  public long getY() {
+  public double getY() {
     return y;
   }
 
-  public void setY(long y) {
+  public void setY(double y) {
     this.y = y;
   }
 
-  public long getZ() {
+  public double getZ() {
     return z;
   }
 
-  public void setZ(long z) {
+  public void setZ(double z) {
     this.z = z;
   }
 
@@ -40,9 +40,13 @@ public class Vector3D {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + (int) (x ^ (x >>> 32));
-    result = prime * result + (int) (y ^ (y >>> 32));
-    result = prime * result + (int) (z ^ (z >>> 32));
+    long temp;
+    temp = Double.doubleToLongBits(x);
+    result = prime * result + (int) (temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(y);
+    result = prime * result + (int) (temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(z);
+    result = prime * result + (int) (temp ^ (temp >>> 32));
     return result;
   }
 
@@ -55,11 +59,11 @@ public class Vector3D {
     if (getClass() != obj.getClass())
       return false;
     Vector3D other = (Vector3D) obj;
-    if (x != other.x)
+    if (Double.doubleToLongBits(x) != Double.doubleToLongBits(other.x))
       return false;
-    if (y != other.y)
+    if (Double.doubleToLongBits(y) != Double.doubleToLongBits(other.y))
       return false;
-    if (z != other.z)
+    if (Double.doubleToLongBits(z) != Double.doubleToLongBits(other.z))
       return false;
     return true;
   }
