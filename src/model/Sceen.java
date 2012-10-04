@@ -17,7 +17,7 @@ public class Sceen {
     }
   }
 
-  void applayRotation(Vector3D v) {
+  void applayRotation(Rotation3D v) {
     for (Object3D c : cubes) {
       c.applyRotation(v);
     }

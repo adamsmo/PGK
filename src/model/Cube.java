@@ -2,7 +2,7 @@ package model;
 
 import java.util.List;
 
-public class Cube implements Object3D {
+public class Cube extends Object3D {
   private List<Edge3D> edges;
   private Point3D position;
   private float arc;
@@ -14,7 +14,7 @@ public class Cube implements Object3D {
   }
 
   @Override
-  public void applyRotation(Vector3D r) {
+  public void applyRotation(Rotation3D r) {
     // TODO Auto-generated method stub
 
   }
