@@ -6,6 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class MainView extends Canvas {
   private static final long serialVersionUID = 6265611146451429502L;
 
   private static List<Edge2D> edges = new ArrayList<Edge2D>();
+  private static int zoom = 1;
 
   public MainView() {
   }
@@ -43,92 +46,82 @@ public class MainView extends Canvas {
     frame.setVisible(true);
 
     final Cube cube = new Cube(new Point3D(20, 50, 100), 40, 40, 40);
-    edges = cube.getEdge2DNormalized(30, 400, 400);
+    edges = cube.getEdge2DNormalizedScaled(30, 400, 400, zoom);
 
     canvas.addKeyListener(new KeyListener() {
 
       @Override
       public void keyTyped(KeyEvent e) {
-
-        System.out.println("keyTyped " + e.getKeyChar());
       }
 
       @Override
       public void keyReleased(KeyEvent e) {
-        // TODO Auto-generated method stub
-        System.out.println("keyReleased");
-
       }
 
       @Override
       public void keyPressed(KeyEvent e) {
 
         if (e.getKeyCode() == KeyEvent.VK_W) {
-          System.out.println("keyTyped");
           cube.applyTranslation(new Vector3D(0, 0, -1));
-          edges = cube.getEdge2DNormalized(30, 400, 400);
+          edges = cube.getEdge2DNormalizedScaled(30, 400, 400, zoom);
           canvas.repaint();
         }
         if (e.getKeyCode() == KeyEvent.VK_S) {
-          System.out.println("keyTyped");
           cube.applyTranslation(new Vector3D(0, 0, 1));
-          edges = cube.getEdge2DNormalized(30, 400, 400);
+          edges = cube.getEdge2DNormalizedScaled(30, 400, 400, zoom);
           canvas.repaint();
         }
-
         if (e.getKeyCode() == KeyEvent.VK_D) {
-          System.out.println("keyTyped");
           cube.applyTranslation(new Vector3D(-1, 0, 0));
-          edges = cube.getEdge2DNormalized(30, 400, 400);
+          edges = cube.getEdge2DNormalizedScaled(30, 400, 400, zoom);
           canvas.repaint();
         }
-
         if (e.getKeyCode() == KeyEvent.VK_A) {
-          System.out.println("keyTyped");
           cube.applyTranslation(new Vector3D(1, 0, 0));
-          edges = cube.getEdge2DNormalized(30, 400, 400);
+          edges = cube.getEdge2DNormalizedScaled(30, 400, 400, zoom);
           canvas.repaint();
         }
-
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-          System.out.println("keyTyped");
           cube.applyRotation(new Rotation3D(0, Math.PI / 90, 0));
-          edges = cube.getEdge2DNormalized(30, 400, 400);
+          edges = cube.getEdge2DNormalizedScaled(30, 400, 400, zoom);
           canvas.repaint();
         }
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-          System.out.println("keyTyped");
           cube.applyRotation(new Rotation3D(0, -Math.PI / 90, 0));
-          edges = cube.getEdge2DNormalized(30, 400, 400);
+          edges = cube.getEdge2DNormalizedScaled(30, 400, 400, zoom);
           canvas.repaint();
         }
         if (e.getKeyCode() == KeyEvent.VK_UP) {
-          System.out.println("keyTyped");
           cube.applyRotation(new Rotation3D(Math.PI / 90, 0, 0));
-          edges = cube.getEdge2DNormalized(30, 400, 400);
+          edges = cube.getEdge2DNormalizedScaled(30, 400, 400, zoom);
           canvas.repaint();
         }
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-          System.out.println("keyTyped");
           cube.applyRotation(new Rotation3D(-Math.PI / 90, 0, 0));
-          edges = cube.getEdge2DNormalized(30, 400, 400);
+          edges = cube.getEdge2DNormalizedScaled(30, 400, 400, zoom);
           canvas.repaint();
         }
-
-        System.out.println("keyReleased");
       }
     });
 
-    // while (true) {
-    // cube.applyRotation(new Rotation3D(0, Math.PI / 45, 0));
-    // edges = cube.getEdge2DNormalized(30, 400, 400);
-    // System.out.println(edges);
-    // canvas.repaint();
-    // try {
-    // Thread.sleep(100);
-    // } catch (InterruptedException e) {
-    // e.printStackTrace();
-    // }
-    // }
+    canvas.addMouseWheelListener(new MouseWheelListener() {
+
+      @Override
+      public void mouseWheelMoved(MouseWheelEvent e) {
+        int delta = e.getWheelRotation() * (-1);
+
+        if (zoom + delta == 0) {
+          if (delta < 0) {
+            zoom = -1;
+          } else if (delta > 0) {
+            zoom = 1;
+          }
+        } else {
+          zoom += delta;
+        }
+        edges = cube.getEdge2DNormalizedScaled(30, 400, 400, zoom);
+        canvas.repaint();
+      }
+    });
   }
 }

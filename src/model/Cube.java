@@ -62,14 +62,50 @@ public class Cube extends Object3D {
   public List<Edge2D> getEdge2DNormalized(double startViewvingDistance, int resX, int resY) {
     List<Edge2D> edges = getEdge2D(startViewvingDistance);
     List<Edge2D> normalizedEdges = new ArrayList<Edge2D>();
+
     for (Edge2D e : edges) {
-      e.getStart().setX(e.getStart().getX() + (resX / 2));
-      e.getEnd().setX(e.getEnd().getX() + (resX / 2));
-      e.getStart().setY(-e.getStart().getY() + (resY / 2));
-      e.getEnd().setY(-e.getEnd().getY() + (resY / 2));
-      normalizedEdges.add(e);
+      normalizedEdges.add(normalizeEdge(resX, resY, e));
     }
+
     return normalizedEdges;
+  }
+
+  public List<Edge2D> getEdge2DNormalizedScaled(int startViewvingDistance, int resX, int resY, int zoom) {
+    if (zoom == 0) {
+      throw new RuntimeException("nieprawidłowa");
+    }
+    List<Edge2D> edges2d = getEdge2D(startViewvingDistance);
+    List<Edge2D> scaledEdges2d = new ArrayList<Edge2D>();
+    double factor = 1;
+
+    if (zoom < 0) {
+      factor = 1.0 / Math.abs(zoom);
+    } else {
+      factor = 1.0 * Math.abs(zoom);
+    }
+
+    for (Edge2D e : edges2d) {
+      scaledEdges2d.add(normalizeEdge(resX, resY, scaleEdge(factor, e)));
+    }
+    return scaledEdges2d;
+  }
+
+  private Edge2D normalizeEdge(int resX, int resY, Edge2D e) {
+    Edge2D eN = Edge2D.getEmptyEdge();
+    eN.getStart().setX(e.getStart().getX() + (resX / 2));
+    eN.getEnd().setX(e.getEnd().getX() + (resX / 2));
+    eN.getStart().setY(-e.getStart().getY() + (resY / 2));
+    eN.getEnd().setY(-e.getEnd().getY() + (resY / 2));
+    return eN;
+  }
+
+  private Edge2D scaleEdge(double factor, Edge2D e) {
+    Edge2D es = Edge2D.getEmptyEdge();
+    es.getStart().setX(e.getStart().getX() * factor);
+    es.getStart().setY(e.getStart().getY() * factor);
+    es.getEnd().setX(e.getEnd().getX() * factor);
+    es.getEnd().setY(e.getEnd().getY() * factor);
+    return es;
   }
 
   private void cutProtrudingEdges(double startViewvingDistance) {
