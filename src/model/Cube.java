@@ -1,35 +1,96 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Cube extends Object3D {
   private List<Edge3D> edges;
-  private Point3D position;
-  private float arc;
 
   @Override
   public void applyTranslation(Vector3D v) {
-    // TODO Auto-generated method stub
-
+    for (Edge3D e3D : edges) {
+      e3D.setStart(translatePoint3d(e3D.getStart(), v));
+      e3D.setEnd(translatePoint3d(e3D.getEnd(), v));
+    }
   }
 
   @Override
   public void applyRotation(Rotation3D r) {
-    // TODO Auto-generated method stub
-
+    for (Edge3D e3D : edges) {
+      e3D.setStart(rotatePoint3d(e3D.getStart(), r));
+      e3D.setEnd(rotatePoint3d(e3D.getEnd(), r));
+    }
   }
 
   @Override
-  public List<Edge2D> getEdge2D(Point3D observer, Surface viewport) {
-    // TODO Auto-generated method stub
-    return null;
+  public List<Edge2D> getEdge2D(double z) {
+    ArrayList<Edge2D> edges2d = new ArrayList<Edge2D>();
+    cutProtrudingEdges(z);
+    for (Edge3D e : edges) {
+      if (e.isDrawable() == false) {
+        continue;
+      }
+      if (e.getMiddleCut() == null) {
+        Point3D startProjection = calculateCutPoint(new Edge3D(e.getStart(), new Point3D(0, 0, 0), null, false), z);
+        Point3D endProjection = calculateCutPoint(new Edge3D(e.getEnd(), new Point3D(0, 0, 0), null, false), z);
+        edges2d.add(new Edge2D(new Point2D(startProjection.getX(), startProjection.getY()), new Point2D(endProjection
+              .getX(), endProjection.getY())));
+        continue;
+      }
+      if (e.getStart().getZ() < 0) {
+        Point3D endProjection = calculateCutPoint(new Edge3D(e.getEnd(), new Point3D(0, 0, 0), null, false), z);
+        edges2d.add(new Edge2D(new Point2D(e.getMiddleCut().getX(), e.getMiddleCut().getY()), new Point2D(endProjection
+              .getX(), endProjection.getY())));
+        continue;
+      } else if (e.getEnd().getZ() < 0) {
+        Point3D startProjection = calculateCutPoint(new Edge3D(e.getStart(), new Point3D(0, 0, 0), null, false), z);
+        edges2d.add(new Edge2D(new Point2D(startProjection.getX(), startProjection.getY()), new Point2D(e
+              .getMiddleCut().getX(), e.getMiddleCut().getY())));
+        continue;
+      }
+
+      throw new RuntimeException("nie powinno nigdy tu wejsc!!!!!");
+    }
+
+    return edges2d;
   }
 
-  public Cube(List<Edge3D> edges, Point3D position, float arc) {
+  public List<Edge2D> getEdge2DNormalized(double z, int resX, int resY) {
+    List<Edge2D> edges = getEdge2D(z);
+    List<Edge2D> normalizedEdges = new ArrayList<Edge2D>();
+    for (Edge2D e : edges) {
+      e.getStart().setX(e.getStart().getX() + (resX / 2));
+      e.getEnd().setX(e.getEnd().getX() + (resX / 2));
+      e.getStart().setY(-e.getStart().getY() + (resY / 2));
+      e.getEnd().setY(-e.getEnd().getY() + (resY / 2));
+      normalizedEdges.add(e);
+    }
+    return normalizedEdges;
+  }
+
+  private void cutProtrudingEdges(double z) {
+    for (Edge3D e3D : edges) {
+      if (e3D.getStart().getZ() > 0 && e3D.getEnd().getZ() > 0) {
+        e3D.setMiddleCut(null);
+        e3D.setDrawable(true);
+        continue;
+      }
+      if (e3D.getStart().getZ() <= 0 && e3D.getEnd().getZ() <= 0) {
+        e3D.setMiddleCut(null);
+        e3D.setDrawable(false);
+        continue;
+      }
+      if (e3D.getStart().getZ() <= 0 || e3D.getEnd().getZ() <= 0) {
+        e3D.setMiddleCut(calculateCutPoint(e3D, z));
+        e3D.setDrawable(true);
+        continue;
+      }
+    }
+  }
+
+  public Cube(List<Edge3D> edges) {
     super();
     this.edges = edges;
-    this.position = position;
-    this.arc = arc;
   }
 
   public List<Edge3D> getEdges() {
@@ -40,29 +101,11 @@ public class Cube extends Object3D {
     this.edges = edges;
   }
 
-  public Point3D getPosition() {
-    return position;
-  }
-
-  public void setPosition(Point3D position) {
-    this.position = position;
-  }
-
-  public float getArc() {
-    return arc;
-  }
-
-  public void setArc(float arc) {
-    this.arc = arc;
-  }
-
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + Float.floatToIntBits(arc);
     result = prime * result + ((edges == null) ? 0 : edges.hashCode());
-    result = prime * result + ((position == null) ? 0 : position.hashCode());
     return result;
   }
 
@@ -75,24 +118,17 @@ public class Cube extends Object3D {
     if (getClass() != obj.getClass())
       return false;
     Cube other = (Cube) obj;
-    if (Float.floatToIntBits(arc) != Float.floatToIntBits(other.arc))
-      return false;
     if (edges == null) {
       if (other.edges != null)
         return false;
     } else if (!edges.equals(other.edges))
-      return false;
-    if (position == null) {
-      if (other.position != null)
-        return false;
-    } else if (!position.equals(other.position))
       return false;
     return true;
   }
 
   @Override
   public String toString() {
-    return "Cube [edges=" + edges + ", position=" + position + ", arc=" + arc + "]";
+    return "Cube [edges=" + edges + "]";
   }
 
 }
