@@ -103,9 +103,8 @@ public class MainView extends Canvas {
         }
       }
     });
-
+    
     canvas.addMouseWheelListener(new MouseWheelListener() {
-
       @Override
       public void mouseWheelMoved(MouseWheelEvent e) {
         int delta = e.getWheelRotation() * (-1);
