@@ -88,6 +88,42 @@ public class Cube extends Object3D {
     }
   }
 
+  public Cube(Point3D center, double height, double width, double depth) {
+    this.edges = new ArrayList<Edge3D>();
+    Point3D point3d1 = new Point3D(center.getX() - width / 2, center.getY() + height, center.getZ() - depth / 2);
+    Point3D point3d2 = new Point3D(center.getX() - width / 2, center.getY() + height, center.getZ() + depth / 2);
+    Point3D point3d3 = new Point3D(center.getX() + width / 2, center.getY() + height, center.getZ() + depth / 2);
+    Point3D point3d4 = new Point3D(center.getX() + width / 2, center.getY() + height, center.getZ() - depth / 2);
+    Point3D point3d5 = new Point3D(center.getX() - width / 2, center.getY(), center.getZ() - depth / 2);
+    Point3D point3d6 = new Point3D(center.getX() - width / 2, center.getY(), center.getZ() + depth / 2);
+    Point3D point3d7 = new Point3D(center.getX() + width / 2, center.getY(), center.getZ() + depth / 2);
+    Point3D point3d8 = new Point3D(center.getX() + width / 2, center.getY(), center.getZ() - depth / 2);
+    // 1
+    edges.add(new Edge3D(point3d1, point3d2, null, true));
+    // 2
+    edges.add(new Edge3D(point3d2, point3d3, null, true));
+    // 3
+    edges.add(new Edge3D(point3d3, point3d4, null, true));
+    // 4
+    edges.add(new Edge3D(point3d4, point3d1, null, true));
+    // 5
+    edges.add(new Edge3D(point3d1, point3d5, null, true));
+    // 6
+    edges.add(new Edge3D(point3d2, point3d6, null, true));
+    // 7
+    edges.add(new Edge3D(point3d3, point3d7, null, true));
+    // 8
+    edges.add(new Edge3D(point3d4, point3d8, null, true));
+    // 9
+    edges.add(new Edge3D(point3d5, point3d6, null, true));
+    // 10
+    edges.add(new Edge3D(point3d6, point3d7, null, true));
+    // 11
+    edges.add(new Edge3D(point3d7, point3d8, null, true));
+    // 12
+    edges.add(new Edge3D(point3d8, point3d5, null, true));
+  }
+
   public Cube(List<Edge3D> edges) {
     super();
     this.edges = edges;

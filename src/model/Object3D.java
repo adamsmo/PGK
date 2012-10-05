@@ -16,7 +16,10 @@ public abstract class Object3D {
 
   public static Point3D translatePoint3d(Point3D p, Vector3D v) {
 
-    double[][] transformMtx = { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { v.getX(), v.getY(), v.getZ(), 1 } };
+    double[][] transformMtx = { { 1, 0, 0, 0 }, 
+                                 { 0, 1, 0, 0 }, 
+                                 { 0, 0, 1, 0 }, 
+                                 { v.getX(), v.getY(), v.getZ(), 1 } };
     Matrix transformMatrix = new Matrix(transformMtx);
 
     double[][] pointMtx = { { p.getX(), p.getY(), p.getZ(), 1.0 } };
@@ -29,7 +32,7 @@ public abstract class Object3D {
 
     pMtx.times(d);
 
-    return new Point3D(pMtx.get(0, 0), pMtx.get(0, 1), pMtx.get(0, 1));
+    return new Point3D(pMtx.get(0, 0), pMtx.get(0, 1), pMtx.get(0, 2));
   }
 
   public static Point3D rotatePoint3d(Point3D p, Rotation3D r) {
