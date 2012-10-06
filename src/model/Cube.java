@@ -7,7 +7,7 @@ public class Cube extends Object3D {
   private List<Edge3D> edges;
 
   @Override
-  public void applyTranslation(Vector3D v) {
+  public void applayTranslation(Vector3D v) {
     for (Edge3D e3D : edges) {
       e3D.setStart(translatePoint3d(e3D.getStart(), v));
       e3D.setEnd(translatePoint3d(e3D.getEnd(), v));
@@ -15,7 +15,7 @@ public class Cube extends Object3D {
   }
 
   @Override
-  public void applyRotation(Rotation3D r) {
+  public void applayRotation(Rotation3D r) {
     for (Edge3D e3D : edges) {
       e3D.setStart(rotatePoint3d(e3D.getStart(), r));
       e3D.setEnd(rotatePoint3d(e3D.getEnd(), r));

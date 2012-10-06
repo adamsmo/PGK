@@ -17,38 +17,23 @@ import model.Cube;
 import model.Edge2D;
 import model.Point3D;
 import model.Rotation3D;
+import model.Sceen;
 import model.Vector3D;
 
 public class MainView extends Canvas {
   private static final long serialVersionUID = 6265611146451429502L;
 
-  private static List<Edge2D> edges = new ArrayList<Edge2D>();
-  private static int zoom = 1;
+  private List<Edge2D> edges = new ArrayList<Edge2D>();
+  private int zoom = 4;
+
+  private Sceen sceen = new Sceen(new ArrayList<Cube>());
+
+  public Sceen getScene() {
+    return sceen;
+  }
 
   public MainView() {
-  }
-
-  public void paint(Graphics graphics) {
-    Graphics2D g2 = (Graphics2D) graphics;
-    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-    for (Edge2D e : edges) {
-      graphics.drawLine((int) e.getStart().getX(), (int) e.getStart().getY(), (int) e.getEnd().getX(), (int) e.getEnd()
-            .getY());
-    }
-  }
-
-  public static void main(String[] args) {
-    final MainView canvas = new MainView(); // We initialize our class here
-    JFrame frame = new JFrame();
-    frame.setSize(400, 400);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.getContentPane().add(canvas); // Here we add it to the frame
-    frame.setVisible(true);
-
-    final Cube cube = new Cube(new Point3D(20, 50, 100), 40, 40, 40);
-    edges = cube.getEdge2DNormalizedScaled(30, 400, 400, zoom);
-
-    canvas.addKeyListener(new KeyListener() {
+    this.addKeyListener(new KeyListener() {
 
       @Override
       public void keyTyped(KeyEvent e) {
@@ -62,49 +47,41 @@ public class MainView extends Canvas {
       public void keyPressed(KeyEvent e) {
 
         if (e.getKeyCode() == KeyEvent.VK_W) {
-          cube.applyTranslation(new Vector3D(0, 0, -1));
-          edges = cube.getEdge2DNormalizedScaled(30, 400, 400, zoom);
-          canvas.repaint();
+          sceen.applayTranslation(new Vector3D(0, 0, -1));
+          refresh(MainView.this);
         }
         if (e.getKeyCode() == KeyEvent.VK_S) {
-          cube.applyTranslation(new Vector3D(0, 0, 1));
-          edges = cube.getEdge2DNormalizedScaled(30, 400, 400, zoom);
-          canvas.repaint();
+          sceen.applayTranslation(new Vector3D(0, 0, 1));
+          refresh(MainView.this);
         }
         if (e.getKeyCode() == KeyEvent.VK_D) {
-          cube.applyTranslation(new Vector3D(-1, 0, 0));
-          edges = cube.getEdge2DNormalizedScaled(30, 400, 400, zoom);
-          canvas.repaint();
+          sceen.applayTranslation(new Vector3D(-1, 0, 0));
+          refresh(MainView.this);
         }
         if (e.getKeyCode() == KeyEvent.VK_A) {
-          cube.applyTranslation(new Vector3D(1, 0, 0));
-          edges = cube.getEdge2DNormalizedScaled(30, 400, 400, zoom);
-          canvas.repaint();
+          sceen.applayTranslation(new Vector3D(1, 0, 0));
+          refresh(MainView.this);
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-          cube.applyRotation(new Rotation3D(0, Math.PI / 90, 0));
-          edges = cube.getEdge2DNormalizedScaled(30, 400, 400, zoom);
-          canvas.repaint();
+          sceen.applayRotation(new Rotation3D(0, Math.PI / 90, 0));
+          refresh(MainView.this);
         }
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-          cube.applyRotation(new Rotation3D(0, -Math.PI / 90, 0));
-          edges = cube.getEdge2DNormalizedScaled(30, 400, 400, zoom);
-          canvas.repaint();
+          sceen.applayRotation(new Rotation3D(0, -Math.PI / 90, 0));
+          refresh(MainView.this);
         }
         if (e.getKeyCode() == KeyEvent.VK_UP) {
-          cube.applyRotation(new Rotation3D(Math.PI / 90, 0, 0));
-          edges = cube.getEdge2DNormalizedScaled(30, 400, 400, zoom);
-          canvas.repaint();
+          sceen.applayRotation(new Rotation3D(Math.PI / 90, 0, 0));
+          refresh(MainView.this);
         }
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-          cube.applyRotation(new Rotation3D(-Math.PI / 90, 0, 0));
-          edges = cube.getEdge2DNormalizedScaled(30, 400, 400, zoom);
-          canvas.repaint();
+          sceen.applayRotation(new Rotation3D(-Math.PI / 90, 0, 0));
+          refresh(MainView.this);
         }
       }
     });
-    
-    canvas.addMouseWheelListener(new MouseWheelListener() {
+
+    this.addMouseWheelListener(new MouseWheelListener() {
       @Override
       public void mouseWheelMoved(MouseWheelEvent e) {
         int delta = e.getWheelRotation() * (-1);
@@ -118,9 +95,41 @@ public class MainView extends Canvas {
         } else {
           zoom += delta;
         }
-        edges = cube.getEdge2DNormalizedScaled(30, 400, 400, zoom);
-        canvas.repaint();
+        refresh(MainView.this);
       }
     });
+  }
+
+  public void paint(Graphics graphics) {
+    Graphics2D g2 = (Graphics2D) graphics;
+    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    for (Edge2D e : edges) {
+      graphics.drawLine((int) e.getStart().getX(), (int) e.getStart().getY(), (int) e.getEnd().getX(), (int) e.getEnd()
+            .getY());
+    }
+  }
+
+  private void refresh(Canvas canvas) {
+    List<Cube> cubes = sceen.getCubes();
+    edges.clear();
+    for (Cube c : cubes) {
+      edges.addAll(c.getEdge2DNormalizedScaled(50, 400, 400, zoom));
+    }
+    System.out.println(edges);
+    canvas.repaint();
+  }
+
+  public static void main(String[] args) {
+    final MainView canvas = new MainView(); // We initialize our class here
+    JFrame frame = new JFrame();
+    frame.setSize(400, 400);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.getContentPane().add(canvas); // Here we add it to the frame
+    frame.setVisible(true);
+
+    Cube cube = new Cube(new Point3D(20, -10, 100), 80, 80, 80);
+    List<Cube> cubes = new ArrayList<Cube>();
+    cubes.add(cube);
+    canvas.getScene().setCubes(cubes);
   }
 }

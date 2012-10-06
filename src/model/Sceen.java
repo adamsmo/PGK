@@ -4,39 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Sceen {
-  private List<Object3D> cubes;
+  private List<Cube> cubes;
 
-  List<Object3D> getFrame() {
+  public List<Object3D> getObjects3d() {
     return new ArrayList<Object3D>();
-    // TODO implement
   }
 
-  void applayTranslation(Vector3D v) {
+  public void applayTranslation(Vector3D v) {
     for (Object3D c : cubes) {
-      c.applyTranslation(v);
+      c.applayTranslation(v);
     }
   }
 
-  void applayRotation(Rotation3D v) {
+  public void applayRotation(Rotation3D v) {
     for (Object3D c : cubes) {
-      c.applyRotation(v);
+      c.applayRotation(v);
     }
   }
 
-  void applyZoom() {
-
-  }
-
-  public Sceen(List<Object3D> cubes) {
+  public Sceen(List<Cube> cubes) {
     super();
     this.cubes = cubes;
   }
 
-  public List<Object3D> getCubes() {
+  public List<Cube> getCubes() {
     return cubes;
   }
 
-  public void setCubes(List<Object3D> cubes) {
+  public void setCubes(List<Cube> cubes) {
     this.cubes = cubes;
   }
 

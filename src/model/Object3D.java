@@ -8,9 +8,9 @@ import math.geom3d.plane.Plane3D;
 import Jama.Matrix;
 
 public abstract class Object3D {
-  abstract void applyTranslation(Vector3D v);
+  abstract void applayTranslation(Vector3D v);
 
-  abstract void applyRotation(Rotation3D r);
+  abstract void applayRotation(Rotation3D r);
 
   abstract List<Edge2D> getEdge2D(double z);
 
