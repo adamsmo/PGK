@@ -23,6 +23,9 @@ import model.Vector3D;
 public class MainView extends Canvas {
   private static final long serialVersionUID = 6265611146451429502L;
 
+  private final double TRANSLATION_SPEED = 5;
+  private final double ROTATION_SPEED = Math.PI / 90;
+
   private List<Edge2D> edges = new ArrayList<Edge2D>();
   private int zoom = 4;
 
@@ -47,35 +50,51 @@ public class MainView extends Canvas {
       public void keyPressed(KeyEvent e) {
 
         if (e.getKeyCode() == KeyEvent.VK_W) {
-          sceen.applayTranslation(new Vector3D(0, 0, -1));
+          sceen.applayTranslation(new Vector3D(0, 0, -TRANSLATION_SPEED));
           refresh(MainView.this);
         }
         if (e.getKeyCode() == KeyEvent.VK_S) {
-          sceen.applayTranslation(new Vector3D(0, 0, 1));
+          sceen.applayTranslation(new Vector3D(0, 0, TRANSLATION_SPEED));
           refresh(MainView.this);
         }
         if (e.getKeyCode() == KeyEvent.VK_D) {
-          sceen.applayTranslation(new Vector3D(-1, 0, 0));
+          sceen.applayTranslation(new Vector3D(-TRANSLATION_SPEED, 0, 0));
           refresh(MainView.this);
         }
         if (e.getKeyCode() == KeyEvent.VK_A) {
-          sceen.applayTranslation(new Vector3D(1, 0, 0));
+          sceen.applayTranslation(new Vector3D(TRANSLATION_SPEED, 0, 0));
+          refresh(MainView.this);
+        }
+        if (e.getKeyCode() == KeyEvent.VK_Q) {
+          sceen.applayTranslation(new Vector3D(0, -TRANSLATION_SPEED, 0));
+          refresh(MainView.this);
+        }
+        if (e.getKeyCode() == KeyEvent.VK_E) {
+          sceen.applayTranslation(new Vector3D(0, TRANSLATION_SPEED, 0));
           refresh(MainView.this);
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-          sceen.applayRotation(new Rotation3D(0, -Math.PI / 90, 0));
+          sceen.applayRotation(new Rotation3D(0, -ROTATION_SPEED, 0));
           refresh(MainView.this);
         }
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-          sceen.applayRotation(new Rotation3D(0, Math.PI / 90, 0));
+          sceen.applayRotation(new Rotation3D(0, ROTATION_SPEED, 0));
           refresh(MainView.this);
         }
         if (e.getKeyCode() == KeyEvent.VK_UP) {
-          sceen.applayRotation(new Rotation3D(Math.PI / 90, 0, 0));
+          sceen.applayRotation(new Rotation3D(-ROTATION_SPEED, 0, 0));
           refresh(MainView.this);
         }
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-          sceen.applayRotation(new Rotation3D(-Math.PI / 90, 0, 0));
+          sceen.applayRotation(new Rotation3D(ROTATION_SPEED, 0, 0));
+          refresh(MainView.this);
+        }
+        if (e.getKeyCode() == KeyEvent.VK_Z) {
+          sceen.applayRotation(new Rotation3D(0, 0, ROTATION_SPEED));
+          refresh(MainView.this);
+        }
+        if (e.getKeyCode() == KeyEvent.VK_C) {
+          sceen.applayRotation(new Rotation3D(0, 0, -ROTATION_SPEED));
           refresh(MainView.this);
         }
       }
@@ -120,19 +139,19 @@ public class MainView extends Canvas {
   }
 
   public static void main(String[] args) {
-    final MainView canvas = new MainView(); // We initialize our class here
-    JFrame frame = new JFrame();
-    frame.setSize(400, 400);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.getContentPane().add(canvas); // Here we add it to the frame
-    frame.setVisible(true);
-
+    final MainView canvas = new MainView();
+    JFrame window = new JFrame();
+    window.setSize(500, 500);
+    window.getContentPane().add(canvas);
+    window.setVisible(true);
+    window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    
     Cube c1 = new Cube(new Point3D(100, -30, 100), 80, 80, 80);
     Cube c2 = new Cube(new Point3D(-100, -30, 100), 80, 80, 80);
     Cube c3 = new Cube(new Point3D(100, -30, -100), 80, 80, 80);
     Cube c4 = new Cube(new Point3D(-100, -30, -100), 80, 80, 80);
     Cube r = new Cube(new Point3D(0, -30, 0), 1, 40, 280);
-    
+
     List<Cube> cubes = new ArrayList<Cube>();
     cubes.add(c1);
     cubes.add(c2);
