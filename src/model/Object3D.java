@@ -2,8 +2,6 @@ package model;
 
 import java.util.List;
 
-import Jama.Matrix;
-
 public abstract class Object3D {
   abstract void applayTranslation(Vector3D v);
 
@@ -19,12 +17,12 @@ public abstract class Object3D {
     double[][] pointMtx = { { p.getX(), p.getY(), p.getZ(), 1.0 } };
     Matrix pMtx = new Matrix(pointMtx);
 
-    pMtx = pMtx.times(transformMatrix);
+    pMtx = pMtx.multiply(transformMatrix);
 
     double d = pMtx.get(0, 3);
     d = 1 / d;
 
-    pMtx.times(d);
+    pMtx.multiply(d);
 
     return new Point3D(pMtx.get(0, 0), pMtx.get(0, 1), pMtx.get(0, 2));
   }
@@ -48,18 +46,18 @@ public abstract class Object3D {
     Matrix tYmtx = new Matrix(transformYmtx);
     Matrix tZmtx = new Matrix(transformZmtx);
 
-    Matrix fullRotateMatrix = tXmtx.times(tYmtx);
-    fullRotateMatrix = fullRotateMatrix.times(tZmtx);
+    Matrix fullRotateMatrix = tXmtx.multiply(tYmtx);
+    fullRotateMatrix = fullRotateMatrix.multiply(tZmtx);
 
     double[][] pointMtx = { { p.getX(), p.getY(), p.getZ(), 1.0 } };
     Matrix pMtx = new Matrix(pointMtx);
 
-    pMtx = pMtx.times(fullRotateMatrix);
+    pMtx = pMtx.multiply(fullRotateMatrix);
 
     double d = pMtx.get(0, 3);
     d = Math.abs(1 / d);
 
-    pMtx = pMtx.times(d);
+    pMtx = pMtx.multiply(d);
 
     return new Point3D(pMtx.get(0, 0), pMtx.get(0, 1), pMtx.get(0, 2));
   }
