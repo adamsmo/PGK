@@ -63,11 +63,11 @@ public class MainView extends Canvas {
           refresh(MainView.this);
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-          sceen.applayRotation(new Rotation3D(0, Math.PI / 90, 0));
+          sceen.applayRotation(new Rotation3D(0, -Math.PI / 90, 0));
           refresh(MainView.this);
         }
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-          sceen.applayRotation(new Rotation3D(0, -Math.PI / 90, 0));
+          sceen.applayRotation(new Rotation3D(0, Math.PI / 90, 0));
           refresh(MainView.this);
         }
         if (e.getKeyCode() == KeyEvent.VK_UP) {
@@ -127,9 +127,18 @@ public class MainView extends Canvas {
     frame.getContentPane().add(canvas); // Here we add it to the frame
     frame.setVisible(true);
 
-    Cube cube = new Cube(new Point3D(20, -10, 100), 80, 80, 80);
+    Cube c1 = new Cube(new Point3D(100, -30, 100), 80, 80, 80);
+    Cube c2 = new Cube(new Point3D(-100, -30, 100), 80, 80, 80);
+    Cube c3 = new Cube(new Point3D(100, -30, -100), 80, 80, 80);
+    Cube c4 = new Cube(new Point3D(-100, -30, -100), 80, 80, 80);
+    Cube r = new Cube(new Point3D(0, -30, 0), 1, 40, 280);
+    
     List<Cube> cubes = new ArrayList<Cube>();
-    cubes.add(cube);
+    cubes.add(c1);
+    cubes.add(c2);
+    cubes.add(c3);
+    cubes.add(c4);
+    cubes.add(r);
     canvas.getScene().setCubes(cubes);
   }
 }
