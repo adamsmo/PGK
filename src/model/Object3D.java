@@ -2,9 +2,6 @@ package model;
 
 import java.util.List;
 
-import math.geom3d.line.StraightLine3D;
-import math.geom3d.plane.Plane3D;
-
 import Jama.Matrix;
 
 public abstract class Object3D {
@@ -16,10 +13,7 @@ public abstract class Object3D {
 
   public static Point3D translatePoint3d(Point3D p, Vector3D v) {
 
-    double[][] transformMtx = { { 1, 0, 0, 0 }, 
-                                 { 0, 1, 0, 0 }, 
-                                 { 0, 0, 1, 0 }, 
-                                 { v.getX(), v.getY(), v.getZ(), 1 } };
+    double[][] transformMtx = { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { v.getX(), v.getY(), v.getZ(), 1 } };
     Matrix transformMatrix = new Matrix(transformMtx);
 
     double[][] pointMtx = { { p.getX(), p.getY(), p.getZ(), 1.0 } };
@@ -70,18 +64,31 @@ public abstract class Object3D {
     return new Point3D(pMtx.get(0, 0), pMtx.get(0, 1), pMtx.get(0, 2));
   }
 
-  public static Point3D calculateCutPoint(Edge3D e3d, double z) {
-    // uzycie biblioteki do policzenia gdzie znajduje sie punkt przeciecia
-    // odcinaka który wychodzi "z ekranu" czyli przecinający plaszczyzne
-    // rownolegla do osi OX OY przechodzaca przez punkt 0,0,0
-    StraightLine3D line3d = new StraightLine3D(new math.geom3d.Point3D(e3d.getStart().getX(), e3d.getStart().getY(),
-          e3d.getStart().getZ()),
-          new math.geom3d.Point3D(e3d.getEnd().getX(), e3d.getEnd().getY(), e3d.getEnd().getZ()));
-    Plane3D plane3d = new Plane3D(new math.geom3d.Point3D(0, 0, z), new math.geom3d.Vector3D(1, 1, 0),
-          new math.geom3d.Vector3D(1, 2, 0));
+  public static Point3D calculateCutPoint(Edge3D e3d, double startViewvingDistance) {
 
-    math.geom3d.Point3D intersection = plane3d.lineIntersection(line3d);
-    // ------------------------------------------------------------------
-    return new Point3D(intersection.getX(), intersection.getY(), intersection.getZ());
+    Point3D V0 = new Point3D(0, 0, startViewvingDistance);
+    Vector3D n = new Vector3D(0, 0, 1);
+
+    Point3D P0 = e3d.getStart();
+    Point3D P1 = e3d.getEnd();
+
+    // v0 - p0
+    Vector3D w = new Vector3D(V0.getX() - P0.getX(), V0.getY() - P0.getY(), V0.getZ() - P0.getZ());
+    // p1 - p0
+    Vector3D u = new Vector3D(P1.getX() - P0.getX(), P1.getY() - P0.getY(), P1.getZ() - P0.getZ());
+
+    double s = (vectorMultiply(n, w) / vectorMultiply(n, u));
+
+    // punkt P0 - s * u
+
+    double x = P0.getX() + s * u.getX();
+    double y = P0.getY() + s * u.getY();
+    double z = P0.getZ() + s * u.getZ();
+
+    return new Point3D(x, y, z);
+  }
+
+  private static double vectorMultiply(Vector3D v1, Vector3D v2) {
+    return (v1.getX() * v2.getX() + v1.getY() * v2.getY() + v1.getZ() * v2.getZ());
   }
 }
