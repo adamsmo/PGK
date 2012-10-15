@@ -1,6 +1,9 @@
 \documentclass{article}
 \usepackage{graphicx}
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
 \usepackage[polish]{babel}
+\usepackage{mathtools}
 \begin{document}
 
 \title{Sprawozdanie z projektu\\ Grafika komputerowa}
@@ -9,61 +12,107 @@
 \maketitle
 
 \section{Opis zagadnienia}
-Przedmiotem projektu jest zrealizowanie renderowania 3d bez użycia akceleracji sprzętowej. Jeżeli chodzi o samą modelowaną scene to będzie się ona składała z prostopadłościanów. Po zamodelowanej przestrzeni będzie można się poruszać w 3 kierunkach oraz wykonywać obroty w wokół 3 osi kartezjańskiego układu współżędnych. Poza tym dostępna będzie rónież opcja zoom polegająca na skalowaniu otrzymanego obrazu. Wymienione operacje będą kontrolowane przy pomocy klaiwatury (poruszanie się oraz obroty) natomiast sam zoom będzie kontrolowany przez kółko myszki. 
+Przedmiotem projektu jest zrealizowanie renderowania 3D bez użycia akceleracji sprzętowej. Jeżeli chodzi o samą modelowaną scenę, to będzie się ona składała z siatek figur geometrycznych (prostopadłościanów). Po symulacji będzie można się poruszać w trzech kierunkach oraz wykonywać obroty wokół trzech osi układu współżędnych oraz zoom. Wymienione operacje będą kontrolowane przy pomocy klawiatury (poruszanie się oraz obroty), natomiast sam zoom będzie kontrolowany przez kółko myszki. 
 
-Do zrealizowania projektu użyję języka Java oraz standardowej biblioteki do rysowania interfejsu użytkownika - AWT. Jeżeli chodzi o samo rendrowanie to będzie ono zrealizowane przez żutowanie siatki obiektu w przestrzeni 3D na płąszczyznę (nieskończoną) reprezentującą ekran. Następnie uzyskane w ten sposób odcinki będą przycinane do granic ekranu i wyświetlane przy użyciu biblioteki AWT na oknie głównym. Animacja będzie realizowana tylko przy interakcji użytkownika z programem, w przypadku braku interakcji będzie wyświetlany statyczny obraz reprezentujący ostatnią wygenerowaną klatkę.
+Do zrealizowania projektu użyję języka Java oraz standardowej biblioteki do rysowania interfejsu użytkownika - AWT. Samo rendrowanie będzie zrealizowane przez rzutowanie siatki obiektu w przestrzeni 3D na płąszczyznę równoległą do osi $Ox$, $Oy$ oddaloną od punktu $\{0,0,0\}$ o zdefiniowaną odległość. Założenie, że płaszczyzna rzutowania jest równoległa do $Ox$, $Oy$ sprawia, że obcinanie niewidocznych krawędzi staje się o wiele prostsze. Odcinanie jest realizowane bezpośrednio przed rzutowaniem obiektów na płaszczyznę. Następnie uzyskane w ten sposób odcinki 2D będą przycinane do granic ekranu i wyświetlane przy użyciu biblioteki AWT na oknie głównym programu. Sama animacja będzie realizowana tylko przy interakcji użytkownika z programem, w przypadku braku interakcji będzie wyświetlany statyczny obraz reprezentujący ostatnią wygenerowaną klatkę. Same transformację będą realizowane przez macierze translacji i rotacji.
 
-\subsection{Użyte przekształcenia}
-Macież translacji
-
-\[
-Mt = \begin{bmatrix}
+Wspomniane wyżej założenie odnośnie płaszczyzny rzutowania wymagają by obserwator nie zmieniał swojej pozycji. Zamiast tego transformacje są aplikowane do wszystkich obiektów modelowanego środowiska. Z punktu widzenia użytkowanika efekt końcowy będzie wyglądał identycznie, ale zastosowane takiego podejście (jak już wspomniałem) bardzo uprości wykrywanie krawędzi, które będą znajdowały się za rzutnią oraz niewyświetlanie ich - wystarczy sprawdzić współrzędne $Z$ rysowanego  obiektu.
+\newpage
+\section{Użyte przekształcenia}
+Poniżej znajdują się wszystkie macierze przekształceń które zostały wykorzystane w projekcie.
+\subsection{Macierz translacji}
+\begin{equation}
+M_{t} = \begin{bmatrix}
        1 & 0 & 0 & 0 \\[0.3em]
        0 & 1 & 0 & 0 \\[0.3em]
-       0 & 0 & 1 & 0
+       0 & 0 & 1 & 0 \\[0.3em]
        X & Y & Z & 1
      \end{bmatrix}
-\]
+\end{equation}
 
-
-Macież rotacji
-\[
- Mx = \begin{bmatrix}
+\subsection{Macierz rotacji}
+Poniżej znajdują się konkretne macierze rotacji używane do wykonywania obrotów.
+\begin{center}
+Macierz rotacji wokół osi $O_{x}$:
+\end{center}
+\begin{equation}
+ M_{x} = \begin{bmatrix}
        1 & 0 & 0 & 0 \\[0.3em]
-       0 & cos(a) & sin(a) & 0 \\[0.3em]
-       0 & sin(a) & cos(a) & 0
+       0 & \cos(\alpha) & -\sin(\alpha) & 0 \\[0.3em]
+       0 & \sin(\alpha) & \cos(\alpha) & 0 \\[0.3em]
        X & Y & Z & 1
      \end{bmatrix}
-\]
+\end{equation}
 
-\[
- My = \begin{bmatrix}
-       cos(a) & 0 & sin(a) & 0 \\[0.3em]
+\begin{center}
+Macierz rotacji wokół osi $O_{y}$:
+\end{center}
+\begin{equation}
+ M_{y} = \begin{bmatrix}
+       \cos(\alpha) & 0 & \sin(\alpha) & 0 \\[0.3em]
        0 & 1 & 0 & 0 \\[0.3em]
-       sin(a) & 0 & cos(a) & 0
+       -\sin(\alpha) & 0 & \cos(\alpha) & 0 \\[0.3em]
        0 & 0 & 0 & 1
      \end{bmatrix}
-\]
+\end{equation}
 
-\[
- Mz = \begin{bmatrix}
-       cos(a) & sin(a) & 0 & 0 \\[0.3em]
-       sin(a) & cos(a) & 0 & 0 \\[0.3em]
-       0 & 0 & 1 & 0
+\begin{center}
+Macierz rotacji wokół osi $O_{z}$:
+\end{center}
+\begin{equation}
+ M_{z} = \begin{bmatrix}
+       \cos(\alpha) & -\sin(\alpha) & 0 & 0 \\[0.3em]
+       \sin(\alpha) & \cos(\alpha) & 0 & 0 \\[0.3em]
+       0 & 0 & 1 & 0 \\[0.3em]
        0 & 0 & 0 & 1
      \end{bmatrix}
-\]
+\end{equation}
 
 
+\newpage
+\subsection{Żutowanie obiektów 3D na płaszczyznę 2D}
+Do przekształcenia obiektów 3D do obrazu wyświetlanego w oknie wykorzystałem wzory na wyznaczanie punktu przecięcia płaszczyzny i prostej. Prostą wykorzystywaną przy rzutowaniu obieku definują dwa punkty, jednym z nich jest punkt $\{0,0,0\}$, który jest położeniem obserwatora, drugim punktem jest punkt rzutowanego obiektu. Punkt obiektu musi być widoczny, co oznacza, że współrzędna $Z$ musi być większa od $D$, które reprezentuje odległość rzutni od użytkownika. Przekształcenie punktu 3D na 2D plegan na odrzuceniu współrzędnej $Z$ po zrzutowaniu (która może zostać potem użyta do zaimplementowania zasłaniania powierzchnii niewidocznych).
+\begin{subequations}
+\begin{align}
+S_{1} & = \frac{ \vec{n} \cdot (V_{0} - P_{0}) }{ \vec{n} \cdot (P_{1} - P_{0}) }\label{eq:projectionequation}\\
+P(S_{1}) & = P_{0} + S_{1} (P_{1} - P_{0})\label{eq:projectionpointequation}
+\end{align}
+\end{subequations}
+\begin{center}
+Równania do wyznaczania punktu przecięcia.
+\end{center}
+
+Gdzie w (\ref{eq:projectionequation}) $\vec{n}$ to wektor normalny płaszczyzny, $V_{0}$ to punkt, który należy do płaszczyzny natomiast punkt $P_{0}$, to początek odcinka należącego do prostej.
+W (\ref{eq:projectionpointequation}) $P_{1}$ i $P_{0}$ to punkty definiujące odcinek należący do prostej i tym samym prostą z którą szukamy punktu przecięcia. $S_{1}$ to parametr obliczomy na podstawie pierwszego równania.
+
+\subsection{Sterowanie}
+\begin{center}
+    \begin{tabular}{ | l | l | p{4cm} |}
+      \hline
+      Poruszanie się: & Obroty: & Zoom:\\
+      \hline
+      \texttt{Q - w górę} & $\uparrow$ \texttt{- oś X CW} & \texttt{scroll Up - zoom+}\\
+      \hline
+      \texttt{E - w dół} & $\downarrow$ \texttt{- oś X CCW} & \texttt{scroll Up - zoom-}\\
+      \hline
+      \texttt{A - w lewo} & $\rightarrow$ \texttt{- oś Y CW} & \\
+      \hline
+      \texttt{D - w prawo} & $\leftarrow$ \texttt{- oś Y CCW} & \\
+      \hline
+      \texttt{W - w przód} & \texttt{C - oś Z CW} & \\
+      \hline
+      \texttt{S - w tył} & \texttt{Z - oś Z CCW} & \\
+      \hline
+    \end{tabular}
+\end{center}
+Skróty: CW (clock wise) zgodnie z ruchem wskazówek zegara, CCW (counter clock wise) przeciwnie do ruchu wskazówek zegara.
+\section{Realizacja}
 
 
-\section{Plan pracy}
-\begin{enumerate}
-\item Postawieni 4 maszyn virtualnych pod kontrolą linuxa
-\item Połączenie maszyn siecią
-\item Zaimplemetnowanie algorytmu
-\item Zainstalowanie aplikacji na komputerach
-\item Testy integracyjne
-\item Napisanie sprawozdania
-\end{enumerate}
+\section{Bibliografia:}
+\begin{itemize}
+\item http://www.mathwarehouse.com/algebra/matrix/multiply-matrix.php \\- Mnożenie macierzy
+\item http://content.gpwiki.org/index.php/Matrix\_math \\- Macierze translacji i rotacji
+\item http://www.thepolygoners.com/tutorials/lineplane/lineplane.html \\- Przecięcie punktu z płąszczyzn
+\end{itemize}
 \end{document}
