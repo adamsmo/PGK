@@ -1,0 +1,41 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage[polish]{babel}
+\begin{document}
+
+\title{Sprawozdanie z projektu\\ Grafika komputerowa}
+\author{Adam Smolarek}
+
+\maketitle
+
+\section{Opis zagadnienia}
+Przedmiotem projektu jest zrealizowanie renderowania 3d bez użycia akceleracji sprzętowej. Jeżeli chodzi o samą modelowaną scene to będzie się ona składała z prostopadłościanów. Po zamodelowanej przestrzeni będzie można się poruszać w 3 kierunkach oraz wykonywać obroty w wokół 3 osi kartezjańskiego układu współżędnych. Poza tym dostępna będzie rónież opcja zoom polegająca na skalowaniu otrzymanego obrazu. Wymienione operacje będą kontrolowane przy pomocy klaiwatury (poruszanie się oraz obroty) natomiast sam zoom będzie kontrolowany przez kółko myszki. 
+
+Do zrealizowania projektu użyję języka Java oraz standardowej biblioteki do rysowania interfejsu użytkownika - awt. 
+\subsection{Opis algorytmu tyrana}
+\begin{enumerate}
+\item Proces P wysyła komunikat ELECTION do wszystkich procesów z wyższymi numerami.
+\item Jeśli nikt nie odpowiada, to P wygrywa.
+\item Proces wygrywający wybory wysyła komunikat COORDINATOR do wszystkich procesów z niższymi numerami.
+\item Jeśli ktoś odpowiedział (komunikat ANSWER), to proces P czeka na komunikat COORDINATOR.
+\item Jeśli taki komunikat nie przychodzi, to P rozpoczyna następne wybory.
+\item Proces, który otrzymał komunikat ELECTION wysyła ANSWER i rozpoczyna następne wybory.
+\end{enumerate}
+
+\newpage
+Przykład wybrania nowego koordynatora.
+
+\begin{figure}
+    \includegraphics[width=4.0in]{w.png}
+\end{figure}
+
+\section{Plan pracy}
+\begin{enumerate}
+\item Postawieni 4 maszyn virtualnych pod kontrolą linuxa
+\item Połączenie maszyn siecią
+\item Zaimplemetnowanie algorytmu
+\item Zainstalowanie aplikacji na komputerach
+\item Testy integracyjne
+\item Napisanie sprawozdania
+\end{enumerate}
+\end{document}
