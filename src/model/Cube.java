@@ -36,20 +36,20 @@ public class Cube extends Object3D {
         Point3D endProjection = calculateCutPoint(new Edge3D(e.getEnd(), new Point3D(0, 0, 0), null, false),
               startViewvingDistance);
         edges2d.add(new Edge2D(new Point2D(startProjection.getX(), startProjection.getY()), new Point2D(endProjection
-              .getX(), endProjection.getY())));
+              .getX(), endProjection.getY()), (e.getStart().getZ()+e.getEnd().getZ())/2));
         continue;
       }
       if (e.getStart().getZ() < startViewvingDistance) {
         Point3D endProjection = calculateCutPoint(new Edge3D(e.getEnd(), new Point3D(0, 0, 0), null, false),
               startViewvingDistance);
         edges2d.add(new Edge2D(new Point2D(e.getMiddleCut().getX(), e.getMiddleCut().getY()), new Point2D(endProjection
-              .getX(), endProjection.getY())));
+              .getX(), endProjection.getY()), (e.getStart().getZ()+e.getEnd().getZ())/2));
         continue;
       } else if (e.getEnd().getZ() < startViewvingDistance) {
         Point3D startProjection = calculateCutPoint(new Edge3D(e.getStart(), new Point3D(0, 0, 0), null, false),
               startViewvingDistance);
         edges2d.add(new Edge2D(new Point2D(startProjection.getX(), startProjection.getY()), new Point2D(e
-              .getMiddleCut().getX(), e.getMiddleCut().getY())));
+              .getMiddleCut().getX(), e.getMiddleCut().getY()), (e.getStart().getZ()+e.getEnd().getZ())/2));
         continue;
       }
 
@@ -91,7 +91,7 @@ public class Cube extends Object3D {
   }
 
   private Edge2D normalizeEdge(int resX, int resY, Edge2D e) {
-    Edge2D eN = Edge2D.getEmptyEdge();
+    Edge2D eN = Edge2D.getEmptyEdge(e.getAvrageDepth());
     eN.getStart().setX(e.getStart().getX() + (resX / 2));
     eN.getEnd().setX(e.getEnd().getX() + (resX / 2));
     eN.getStart().setY(-e.getStart().getY() + (resY / 2));
@@ -100,7 +100,7 @@ public class Cube extends Object3D {
   }
 
   private Edge2D scaleEdge(double factor, Edge2D e) {
-    Edge2D es = Edge2D.getEmptyEdge();
+    Edge2D es = Edge2D.getEmptyEdge(e.getAvrageDepth());
     es.getStart().setX(e.getStart().getX() * factor);
     es.getStart().setY(e.getStart().getY() * factor);
     es.getEnd().setX(e.getEnd().getX() * factor);
