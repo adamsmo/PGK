@@ -1,6 +1,7 @@
 package presentation;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -126,6 +127,8 @@ public class MainView extends Canvas {
       graphics.drawLine((int) e.getStart().getX(), (int) e.getStart().getY(), (int) e.getEnd().getX(), (int) e.getEnd()
             .getY());
     }
+    graphics.setColor(new Color(0, 0, 0));
+    graphics.drawRect(40, 40, 40, 40);
   }
 
   private void refresh(Canvas canvas) {
