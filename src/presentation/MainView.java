@@ -151,12 +151,12 @@ public class MainView extends Canvas {
     window.getContentPane().add(canvas);
     window.setVisible(true);
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    
-    FilledCube c1 = new FilledCube(new Point3D(100, -30, 100), 80, 80, 80);
-    FilledCube c2 = new FilledCube(new Point3D(-100, -30, 100), 80, 80, 80);
-    FilledCube c3 = new FilledCube(new Point3D(100, -30, -100), 80, 80, 80);
-    FilledCube c4 = new FilledCube(new Point3D(-100, -30, -100), 80, 80, 80);
-    FilledCube r = new FilledCube(new Point3D(0, -30, 0), 1, 40, 280);
+
+    FilledCube c1 = new FilledCube(new Point3D(100, -30, 100 + 200), 80, 80, 80);
+    FilledCube c2 = new FilledCube(new Point3D(-100, -30, 100 + 200), 80, 80, 80);
+    FilledCube c3 = new FilledCube(new Point3D(100, -30, -100 + 200), 80, 80, 80);
+    FilledCube c4 = new FilledCube(new Point3D(-100, -30, -100 + 200), 80, 80, 80);
+    FilledCube r = new FilledCube(new Point3D(0, -30, 0 + 200), 1, 40, 280);
 
     List<FilledCube> cubes = new ArrayList<FilledCube>();
     cubes.add(c1);
