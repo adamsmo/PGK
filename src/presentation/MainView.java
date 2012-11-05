@@ -128,15 +128,11 @@ public class MainView extends Canvas {
   public void paint(Graphics graphics) {
     Graphics2D g2 = (Graphics2D) graphics;
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-    for (Edge2D e : edges) {
-      graphics.drawLine((int) e.getStart().getX(), (int) e.getStart().getY(), (int) e.getEnd().getX(), (int) e.getEnd()
-            .getY());
-    }
     Collections.sort(polygons, new Comparator<Polygon2D>() {
 
       @Override
       public int compare(Polygon2D o1, Polygon2D o2) {
-        return (int) getAvrage(o1) - (int) getAvrage(o2);
+        return  (int) getAvrage(o2) -(int) getAvrage(o1);
       }
 
       private double getAvrage(Polygon2D o) {
@@ -175,11 +171,11 @@ public class MainView extends Canvas {
     window.setVisible(true);
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    FilledCube c1 = new FilledCube(new Point3D(100, -30, 100 + 200), 80, 80, 80);
-    FilledCube c2 = new FilledCube(new Point3D(-100, -30, 100 + 200), 80, 80, 80);
-    FilledCube c3 = new FilledCube(new Point3D(100, -30, -100 + 200), 80, 80, 80);
-    FilledCube c4 = new FilledCube(new Point3D(-100, -30, -100 + 200), 80, 80, 80);
-    FilledCube r = new FilledCube(new Point3D(0, -30, 0 + 200), 1, 40, 280);
+    FilledCube c1 = new FilledCube(new Point3D(100, -30, 100 + 400), 80, 80, 80);
+    FilledCube c2 = new FilledCube(new Point3D(-100, -30, 100 + 400), 80, 80, 80);
+    FilledCube c3 = new FilledCube(new Point3D(100, -30, -100 + 400), 80, 80, 80);
+    FilledCube c4 = new FilledCube(new Point3D(-100, -30, -100 + 400), 80, 80, 80);
+    FilledCube r = new FilledCube(new Point3D(0, -30, 0 + 400), 1, 40, 280);
 
     List<FilledCube> cubes = new ArrayList<FilledCube>();
     cubes.add(c1);
@@ -204,11 +200,11 @@ public class MainView extends Canvas {
     g.setColor(newColor);
     g.fillPolygon(xPoints, yPoints, points.size());
     g.setColor(backUpColor);
-    
-    for(int j =0; j < points.size() - 1; j++){
-    	g.drawLine(xPoints[j], yPoints[j], xPoints[j+1], yPoints[j+1] );
+
+    for (int j = 0; j < points.size() - 1; j++) {
+      g.drawLine(xPoints[j], yPoints[j], xPoints[j + 1], yPoints[j + 1]);
     }
-    
-    g.drawLine(xPoints[points.size()], yPoints[points.size()], xPoints[0], yPoints[0]);
+
+    g.drawLine(xPoints[points.size() - 1], yPoints[points.size() - 1], xPoints[0], yPoints[0]);
   }
 }
