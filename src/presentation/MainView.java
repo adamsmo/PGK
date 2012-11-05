@@ -1,6 +1,7 @@
 package presentation;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -198,7 +199,10 @@ public class MainView extends Canvas {
       yPoints[i] = (int) points.get(i).getY();
     }
 
-    g.drawPolygon(xPoints, yPoints, points.size());
-
+    Color backUpColor = g.getColor();
+    Color newColor = new Color(0, 0, 100);
+    g.setColor(newColor);
+    g.fillPolygon(xPoints, yPoints, points.size());
+    g.setColor(backUpColor);
   }
 }
