@@ -146,8 +146,10 @@ public class MainView extends Canvas {
         }
         return sum / count;
       }
-
     });
+    for (Polygon2D p : polygons) {
+      drawPolygon(graphics, p);
+    }
   }
 
   private void refresh(Canvas canvas) {
@@ -186,17 +188,17 @@ public class MainView extends Canvas {
     cubes.add(r);
     canvas.getScene().setCubes(cubes);
   }
-  
+
   private void drawPolygon(Graphics g, Polygon2D polygon) {
-	  ArrayList<Point2D> points = polygon.getPoints();
-	  int[] xPoints = new int [points.size()];
-	  int[] yPoints = new int [points.size()];
-	  for (int i=0; i< points.size(); i++ ){
-		  xPoints[i] = (int) points.get(i).getX();
-		  yPoints[i] = (int) points.get(i).getY();
-	  }
-	  
-	  g.drawPolygon(xPoints, yPoints, points.size());
-	   
+    ArrayList<Point2D> points = polygon.getPoints();
+    int[] xPoints = new int[points.size()];
+    int[] yPoints = new int[points.size()];
+    for (int i = 0; i < points.size(); i++) {
+      xPoints[i] = (int) points.get(i).getX();
+      yPoints[i] = (int) points.get(i).getY();
+    }
+
+    g.drawPolygon(xPoints, yPoints, points.size());
+
   }
 }
