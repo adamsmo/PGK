@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 
 import model.Edge2D;
 import model.FilledCube;
+import model.Point2D;
 import model.Point3D;
 import model.Polygon2D;
 import model.Rotation3D;
@@ -165,5 +166,18 @@ public class MainView extends Canvas {
     cubes.add(c4);
     cubes.add(r);
     canvas.getScene().setCubes(cubes);
+  }
+  
+  private void drawPolygon(Graphics g, Polygon2D polygon) {
+	  ArrayList<Point2D> points = polygon.getPoints();
+	  int[] xPoints = new int [points.size()];
+	  int[] yPoints = new int [points.size()];
+	  for (int i=0; i< points.size(); i++ ){
+		  xPoints[i] = (int) points.get(i).getX();
+		  yPoints[i] = (int) points.get(i).getY();
+	  }
+	  
+	  g.drawPolygon(xPoints, yPoints, points.size());
+	   
   }
 }
