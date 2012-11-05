@@ -24,12 +24,12 @@ public abstract class Cube extends Object3D {
 
   public List<Edge2D> getEdge2D(double startViewvingDistance) {
     ArrayList<Edge2D> edges2d = new ArrayList<Edge2D>();
-    cutProtrudingEdges(startViewvingDistance);
+//    cutProtrudingEdges(startViewvingDistance);
     for (Edge3D e : edges) {
-      if (e.isDrawable() == false) {
-        continue;
-      }
-      if (e.getMiddleCut() == null) {
+//      if (e.isDrawable() == false) {
+//        continue;
+//      }
+//      if (e.getMiddleCut() == null) {
         Point3D startProjection = calculateCutPoint(new Edge3D(e.getStart(), new Point3D(0, 0, 0), null, false),
               startViewvingDistance);
         Point3D endProjection = calculateCutPoint(new Edge3D(e.getEnd(), new Point3D(0, 0, 0), null, false),
@@ -37,22 +37,22 @@ public abstract class Cube extends Object3D {
         edges2d.add(new Edge2D(new Point2D(startProjection.getX(), startProjection.getY(), e.getStart().getZ()),
               new Point2D(endProjection.getX(), endProjection.getY(), e.getEnd().getZ())));
         continue;
-      }
-      if (e.getStart().getZ() < startViewvingDistance) {
-        Point3D endProjection = calculateCutPoint(new Edge3D(e.getEnd(), new Point3D(0, 0, 0), null, false),
-              startViewvingDistance);
-        edges2d.add(new Edge2D(new Point2D(e.getMiddleCut().getX(), e.getMiddleCut().getY(), e.getStart().getZ()),
-              new Point2D(endProjection.getX(), endProjection.getY(), e.getEnd().getZ())));
-        continue;
-      } else if (e.getEnd().getZ() < startViewvingDistance) {
-        Point3D startProjection = calculateCutPoint(new Edge3D(e.getStart(), new Point3D(0, 0, 0), null, false),
-              startViewvingDistance);
-        edges2d.add(new Edge2D(new Point2D(startProjection.getX(), startProjection.getY(), e.getStart().getZ()),
-              new Point2D(e.getMiddleCut().getX(), e.getMiddleCut().getY(), e.getEnd().getZ())));
-        continue;
-      }
-
-      throw new RuntimeException("nie powinno nigdy tu wejsc!!!!!");
+//      }
+//      if (e.getStart().getZ() < startViewvingDistance) {
+//        Point3D endProjection = calculateCutPoint(new Edge3D(e.getEnd(), new Point3D(0, 0, 0), null, false),
+//              startViewvingDistance);
+//        edges2d.add(new Edge2D(new Point2D(e.getMiddleCut().getX(), e.getMiddleCut().getY(), e.getStart().getZ()),
+//              new Point2D(endProjection.getX(), endProjection.getY(), e.getEnd().getZ())));
+//        continue;
+//      } else if (e.getEnd().getZ() < startViewvingDistance) {
+//        Point3D startProjection = calculateCutPoint(new Edge3D(e.getStart(), new Point3D(0, 0, 0), null, false),
+//              startViewvingDistance);
+//        edges2d.add(new Edge2D(new Point2D(startProjection.getX(), startProjection.getY(), e.getStart().getZ()),
+//              new Point2D(e.getMiddleCut().getX(), e.getMiddleCut().getY(), e.getEnd().getZ())));
+//        continue;
+//      }
+//
+//      throw new RuntimeException("nie powinno nigdy tu wejsc!!!!!");
     }
 
     return edges2d;
