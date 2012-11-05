@@ -204,5 +204,11 @@ public class MainView extends Canvas {
     g.setColor(newColor);
     g.fillPolygon(xPoints, yPoints, points.size());
     g.setColor(backUpColor);
+    
+    for(int j =0; j < points.size() - 1; j++){
+    	g.drawLine(xPoints[j], yPoints[j], xPoints[j+1], yPoints[j+1] );
+    }
+    
+    g.drawLine(xPoints[points.size()], yPoints[points.size()], xPoints[0], yPoints[0]);
   }
 }
