@@ -3,9 +3,16 @@ package model;
 import java.util.ArrayList;
 
 public class Polygon2D {
-  
+
   // lista punktów w kolejności w której mają być połączone
   private ArrayList<Point2D> points;
+
+  public Polygon2D(Point2D... pts) {
+    points = new ArrayList<Point2D>();
+    for (Point2D p : pts) {
+      points.add(p);
+    }
+  }
 
   public ArrayList<Point2D> getPoints() {
     return points;

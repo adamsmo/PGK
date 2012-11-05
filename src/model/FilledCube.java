@@ -14,36 +14,42 @@ public class FilledCube extends Cube {
     List<Edge2D> edges2d = getEdge2DNormalizedScaled(50, 400, 400, zoom);
     List<Polygon2D> polygons2d = new ArrayList<Polygon2D>();
 
-    edges2d.get(1).getStart();
-    edges2d.get(2).getStart();
-    edges2d.get(3).getStart();
-    edges2d.get(4).getStart();
+    polygons2d.add(new Polygon2D(
+    edges2d.get(1 - 1).getStart(),
+    edges2d.get(2 - 1).getStart(),
+    edges2d.get(3 - 1).getStart(),
+    edges2d.get(4 - 1).getStart()));
 
-    edges2d.get(1).getStart();
-    edges2d.get(5).getStart();
-    edges2d.get(9).getStart();
-    edges2d.get(6).getStart();
+    polygons2d.add(new Polygon2D(
+    edges2d.get(1 - 1).getStart(),
+    edges2d.get(5 - 1).getStart(),
+    edges2d.get(9 - 1).getStart(),
+    edges2d.get(6 - 1).getStart()));
 
-    edges2d.get(4).getStart();
-    edges2d.get(5).getStart();
-    edges2d.get(12).getStart();
-    edges2d.get(8).getStart();
+    polygons2d.add(new Polygon2D(
+    edges2d.get(4 - 1).getStart(),
+    edges2d.get(5 - 1).getStart(),
+    edges2d.get(12 - 1).getStart(),
+    edges2d.get(8 - 1).getStart()));
 
-    edges2d.get(9).getStart();
-    edges2d.get(10).getStart();
-    edges2d.get(11).getStart();
-    edges2d.get(12).getStart();
-    
-    edges2d.get(2).getStart();
-    edges2d.get(7).getStart();
-    edges2d.get(10).getStart();
-    edges2d.get(6).getStart();
-    
-    edges2d.get(3).getStart();
-    edges2d.get(7).getStart();
-    edges2d.get(11).getStart();
-    edges2d.get(8).getStart();
-    
+    polygons2d.add(new Polygon2D(
+    edges2d.get(9 - 1).getStart(),
+    edges2d.get(10 - 1).getStart(),
+    edges2d.get(11 - 1).getStart(),
+    edges2d.get(12 - 1).getStart()));
+
+    polygons2d.add(new Polygon2D(
+    edges2d.get(2 - 1).getStart(),
+    edges2d.get(7 - 1).getStart(),
+    edges2d.get(10 - 1).getStart(),
+    edges2d.get(6 - 1).getStart()));
+
+    polygons2d.add(new Polygon2D(
+    edges2d.get(3 - 1).getStart(),
+    edges2d.get(7 - 1).getStart(),
+    edges2d.get(11 - 1).getStart(),
+    edges2d.get(8 - 1).getStart()));
+
     return polygons2d;
   }
 }
