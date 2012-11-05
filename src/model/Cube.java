@@ -95,6 +95,8 @@ public abstract class Cube extends Object3D {
     eN.getEnd().setX(e.getEnd().getX() + (resX / 2));
     eN.getStart().setY(-e.getStart().getY() + (resY / 2));
     eN.getEnd().setY(-e.getEnd().getY() + (resY / 2));
+    eN.getStart().setDepth(e.getStart().getDepth());
+    eN.getEnd().setDepth(e.getEnd().getDepth());
     return eN;
   }
 
@@ -104,6 +106,8 @@ public abstract class Cube extends Object3D {
     es.getStart().setY(e.getStart().getY() * factor);
     es.getEnd().setX(e.getEnd().getX() * factor);
     es.getEnd().setY(e.getEnd().getY() * factor);
+    es.getStart().setDepth(e.getStart().getDepth());
+    es.getEnd().setDepth(e.getEnd().getDepth());
     return es;
   }
 
