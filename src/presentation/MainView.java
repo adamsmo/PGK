@@ -9,12 +9,15 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JFrame;
 
 import model.Edge2D;
 import model.FilledCube;
+import model.Point2D;
 import model.Point3D;
 import model.Polygon2D;
 import model.Rotation3D;
@@ -128,6 +131,23 @@ public class MainView extends Canvas {
       graphics.drawLine((int) e.getStart().getX(), (int) e.getStart().getY(), (int) e.getEnd().getX(), (int) e.getEnd()
             .getY());
     }
+    Collections.sort(polygons, new Comparator<Polygon2D>() {
+
+      @Override
+      public int compare(Polygon2D o1, Polygon2D o2) {
+        return (int) getAvrage(o1) - (int) getAvrage(o2);
+      }
+
+      private double getAvrage(Polygon2D o) {
+        int count = o.getPoints().size();
+        double sum = 0;
+        for (Point2D p : o.getPoints()) {
+          sum += p.getDepth();
+        }
+        return sum / count;
+      }
+
+    });
   }
 
   private void refresh(Canvas canvas) {
