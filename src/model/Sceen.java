@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Sceen {
-  private List<Cube> cubes;
+  private List<FilledCube> cubes;
 
   public List<Object3D> getObjects3d() {
     return new ArrayList<Object3D>();
@@ -22,16 +22,16 @@ public class Sceen {
     }
   }
 
-  public Sceen(List<Cube> cubes) {
+  public Sceen(List<FilledCube> cubes) {
     super();
     this.cubes = cubes;
   }
 
-  public List<Cube> getCubes() {
+  public List<FilledCube> getCubes() {
     return cubes;
   }
 
-  public void setCubes(List<Cube> cubes) {
+  public void setCubes(List<FilledCube> cubes) {
     this.cubes = cubes;
   }
 

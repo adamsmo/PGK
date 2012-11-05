@@ -13,9 +13,10 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-import model.Cube;
 import model.Edge2D;
+import model.FilledCube;
 import model.Point3D;
+import model.Polygon2D;
 import model.Rotation3D;
 import model.Sceen;
 import model.Vector3D;
@@ -26,10 +27,11 @@ public class MainView extends Canvas {
   private final double TRANSLATION_SPEED = 5;
   private final double ROTATION_SPEED = Math.PI / 90;
 
+  private List<Polygon2D> polygons = new ArrayList<Polygon2D>();
   private List<Edge2D> edges = new ArrayList<Edge2D>();
   private int zoom = 4;
 
-  private Sceen sceen = new Sceen(new ArrayList<Cube>());
+  private Sceen sceen = new Sceen(new ArrayList<FilledCube>());
 
   public Sceen getScene() {
     return sceen;
@@ -129,10 +131,14 @@ public class MainView extends Canvas {
   }
 
   private void refresh(Canvas canvas) {
-    List<Cube> cubes = sceen.getCubes();
+    List<FilledCube> cubes = sceen.getCubes();
     edges.clear();
-    for (Cube c : cubes) {
+    for (FilledCube c : cubes) {
       edges.addAll(c.getEdge2DNormalizedScaled(50, 400, 400, zoom));
+    }
+    polygons.clear();
+    for (FilledCube c : cubes) {
+      polygons.addAll(c.getPolygons2dNormalizedScaled(50, 400, 400, zoom));
     }
     System.out.println(edges);
     canvas.repaint();
@@ -146,13 +152,13 @@ public class MainView extends Canvas {
     window.setVisible(true);
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     
-    Cube c1 = new Cube(new Point3D(100, -30, 100), 80, 80, 80);
-    Cube c2 = new Cube(new Point3D(-100, -30, 100), 80, 80, 80);
-    Cube c3 = new Cube(new Point3D(100, -30, -100), 80, 80, 80);
-    Cube c4 = new Cube(new Point3D(-100, -30, -100), 80, 80, 80);
-    Cube r = new Cube(new Point3D(0, -30, 0), 1, 40, 280);
+    FilledCube c1 = new FilledCube(new Point3D(100, -30, 100), 80, 80, 80);
+    FilledCube c2 = new FilledCube(new Point3D(-100, -30, 100), 80, 80, 80);
+    FilledCube c3 = new FilledCube(new Point3D(100, -30, -100), 80, 80, 80);
+    FilledCube c4 = new FilledCube(new Point3D(-100, -30, -100), 80, 80, 80);
+    FilledCube r = new FilledCube(new Point3D(0, -30, 0), 1, 40, 280);
 
-    List<Cube> cubes = new ArrayList<Cube>();
+    List<FilledCube> cubes = new ArrayList<FilledCube>();
     cubes.add(c1);
     cubes.add(c2);
     cubes.add(c3);

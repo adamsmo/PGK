@@ -10,8 +10,8 @@ public class FilledCube extends Cube {
   }
 
   @Override
-  List<Polygon2D> getPolygons2d(double z) {
-    List<Edge2D> edges2d = getEdge2D(z);
+  public List<Polygon2D> getPolygons2dNormalizedScaled(int startViewvingDistance, int resX, int resY, int zoom) {
+    List<Edge2D> edges2d = getEdge2DNormalizedScaled(50, 400, 400, zoom);
     List<Polygon2D> polygons2d = new ArrayList<Polygon2D>();
 
     edges2d.get(1).getStart();

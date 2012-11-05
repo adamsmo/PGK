@@ -3,11 +3,11 @@ package model;
 import java.util.List;
 
 public abstract class Object3D {
-  abstract void applayTranslation(Vector3D v);
+  public abstract void applayTranslation(Vector3D v);
 
-  abstract void applayRotation(Rotation3D r);
+  public abstract void applayRotation(Rotation3D r);
 
-  abstract List<Polygon2D> getPolygons2d(double z);
+  public abstract List<Polygon2D> getPolygons2dNormalizedScaled(int startViewvingDistance, int resX, int resY, int zoom);
 
   public static Point3D translatePoint3d(Point3D p, Vector3D v) {
 
