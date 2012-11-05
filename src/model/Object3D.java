@@ -7,7 +7,7 @@ public abstract class Object3D {
 
   abstract void applayRotation(Rotation3D r);
 
-  abstract List<Edge2D> getEdge2D(double z);
+  abstract List<Polygon2D> getPolygons2d(double z);
 
   public static Point3D translatePoint3d(Point3D p, Vector3D v) {
 

@@ -63,7 +63,7 @@ public class Edge2D {
   }
 
   public static Edge2D getEmptyEdge() {
-    return new Edge2D(new Point2D(0, 0), new Point2D(0, 0));
+    return new Edge2D(new Point2D(0, 0, 0), new Point2D(0, 0, 0));
   }
 
 }

@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cube extends Object3D {
+public abstract class Cube extends Object3D {
   private List<Edge3D> edges;
 
   @Override
@@ -22,7 +22,6 @@ public class Cube extends Object3D {
     }
   }
 
-  @Override
   public List<Edge2D> getEdge2D(double startViewvingDistance) {
     ArrayList<Edge2D> edges2d = new ArrayList<Edge2D>();
     cutProtrudingEdges(startViewvingDistance);
@@ -35,21 +34,21 @@ public class Cube extends Object3D {
               startViewvingDistance);
         Point3D endProjection = calculateCutPoint(new Edge3D(e.getEnd(), new Point3D(0, 0, 0), null, false),
               startViewvingDistance);
-        edges2d.add(new Edge2D(new Point2D(startProjection.getX(), startProjection.getY()), new Point2D(endProjection
-              .getX(), endProjection.getY())));
+        edges2d.add(new Edge2D(new Point2D(startProjection.getX(), startProjection.getY(), e.getStart().getZ()),
+              new Point2D(endProjection.getX(), endProjection.getY(), e.getEnd().getZ())));
         continue;
       }
       if (e.getStart().getZ() < startViewvingDistance) {
         Point3D endProjection = calculateCutPoint(new Edge3D(e.getEnd(), new Point3D(0, 0, 0), null, false),
               startViewvingDistance);
-        edges2d.add(new Edge2D(new Point2D(e.getMiddleCut().getX(), e.getMiddleCut().getY()), new Point2D(endProjection
-              .getX(), endProjection.getY())));
+        edges2d.add(new Edge2D(new Point2D(e.getMiddleCut().getX(), e.getMiddleCut().getY(), e.getStart().getZ()),
+              new Point2D(endProjection.getX(), endProjection.getY(), e.getEnd().getZ())));
         continue;
       } else if (e.getEnd().getZ() < startViewvingDistance) {
         Point3D startProjection = calculateCutPoint(new Edge3D(e.getStart(), new Point3D(0, 0, 0), null, false),
               startViewvingDistance);
-        edges2d.add(new Edge2D(new Point2D(startProjection.getX(), startProjection.getY()), new Point2D(e
-              .getMiddleCut().getX(), e.getMiddleCut().getY())));
+        edges2d.add(new Edge2D(new Point2D(startProjection.getX(), startProjection.getY(), e.getStart().getZ()),
+              new Point2D(e.getMiddleCut().getX(), e.getMiddleCut().getY(), e.getEnd().getZ())));
         continue;
       }
 

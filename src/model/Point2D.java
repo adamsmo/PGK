@@ -3,11 +3,13 @@ package model;
 public class Point2D {
   private double x;
   private double y;
+  private double depth;
 
-  public Point2D(double x, double y) {
+  public Point2D(double x, double y, double depth) {
     super();
     this.x = x;
     this.y = y;
+    this.depth = depth;
   }
 
   public double getX() {
@@ -26,11 +28,21 @@ public class Point2D {
     this.y = y;
   }
 
+  public double getDepth() {
+    return depth;
+  }
+
+  public void setDepth(double depth) {
+    this.depth = depth;
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
     long temp;
+    temp = Double.doubleToLongBits(depth);
+    result = prime * result + (int) (temp ^ (temp >>> 32));
     temp = Double.doubleToLongBits(x);
     result = prime * result + (int) (temp ^ (temp >>> 32));
     temp = Double.doubleToLongBits(y);
@@ -47,6 +59,8 @@ public class Point2D {
     if (getClass() != obj.getClass())
       return false;
     Point2D other = (Point2D) obj;
+    if (Double.doubleToLongBits(depth) != Double.doubleToLongBits(other.depth))
+      return false;
     if (Double.doubleToLongBits(x) != Double.doubleToLongBits(other.x))
       return false;
     if (Double.doubleToLongBits(y) != Double.doubleToLongBits(other.y))
@@ -56,7 +70,7 @@ public class Point2D {
 
   @Override
   public String toString() {
-    return "Point2D [x=" + x + ", y=" + y + "]";
+    return "Point2D [x=" + x + ", y=" + y + ", depth=" + depth + "]";
   }
 
 }
