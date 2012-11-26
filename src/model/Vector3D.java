@@ -5,6 +5,12 @@ public class Vector3D {
   private double y;
   private double z;
 
+  public Vector3D(Point3D start, Point3D end) {
+    x = end.getX() - start.getX();
+    y = end.getY() - start.getY();
+    z = end.getZ() - start.getZ();
+  }
+
   public Vector3D(double x, double y, double z) {
     super();
     this.x = x;
@@ -66,6 +72,10 @@ public class Vector3D {
     if (Double.doubleToLongBits(z) != Double.doubleToLongBits(other.z))
       return false;
     return true;
+  }
+
+  public double dotProduct(Vector3D v) {
+    return x * v.getX() + y * v.getY() + z * v.getZ();
   }
 
   @Override
