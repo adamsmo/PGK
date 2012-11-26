@@ -28,7 +28,8 @@ public class PhongLightModel {
     this.light = light;
   }
 
-  public PhongLightModel(Point3D point3d, double c, double ks, double kd) {
+  public PhongLightModel(Point3D light, double c, double ks, double kd) {
+    this.light = light;
     this.c = c;
     this.ks = ks;
     this.kd = kd;
@@ -56,7 +57,7 @@ public class PhongLightModel {
     if (intersections.size() == 0) {
       return 0;
     }
-    System.out.println("przecieło się dla  x = " + normalizedX + " y = " + normalizedY);
+
     Point3D surfaceCameraTouchPoint;
     if (intersections.size() == 1) {
       surfaceCameraTouchPoint = intersections.get(0);

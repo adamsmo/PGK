@@ -19,7 +19,7 @@ public class PhongPresentation {
   private static PhongLightModel lm = new PhongLightModel(new Point3D(100, 0, 100));
   private static ImageDrawingComponent drawingComponent = new ImageDrawingComponent(image);
 
-  private static void repaint() {
+  private static BufferedImage repaint(BufferedImage image, PhongLightModel lm) {
     int[][] picture = normalizePicture(lm.getPicture());
     for (int x = 0; x < picture.length; x++) {
       for (int y = 0; y < picture[x].length; y++) {
@@ -32,19 +32,17 @@ public class PhongPresentation {
         image.setRGB(x, y, c.getRGB());
       }
     }
-
+    return image;
   }
 
   private static int[][] normalizePicture(double[][] picture) {
     double factor = 255.0 / 250.0;
-    System.out.println(factor);
     int[][] result = new int[picture.length][picture[0].length];
 
     for (int x = 0; x < picture.length; x++) {
       for (int y = 0; y < picture[x].length; y++) {
         result[x][y] = (int) (picture[x][y] * factor);
         if (result[x][y] > 0) {
-          System.out.println(result[x][y]);
         }
         if (result[x][y] > 255) {
           result[x][y] = 255;
@@ -57,13 +55,13 @@ public class PhongPresentation {
   }
 
   public static void main(String[] args) {
-    repaint();
+    image = repaint(image, lm);
     JFrame window = new JFrame();
     window.setSize(500, 500);
 
-    final String[] materialType = { "błyszczący", "półmatowy", "matowy" };
+    final String[] materialType = { "półmatowy", "błyszczący", "matowy" };
     final SpinnerListModel materialTypeModel = new SpinnerListModel(materialType);
-    final String[] positions = { "top", "corner", "side" };
+    final String[] positions = { "side", "top", "corner" };
     final SpinnerListModel positionModel = new SpinnerListModel(positions);
 
     Button b = new Button("Rysuj");
@@ -128,17 +126,16 @@ public class PhongPresentation {
           cY = 0;
           cZ = 100;
         }
-        lm = new PhongLightModel(new Point3D(cX, cY, cZ), c, ks, kd);
-//        repaint();
-//        drawingComponent.bi = image;
-//        drawingComponent.repaint();
+        PhongLightModel ltm = new PhongLightModel(new Point3D(cX, cY, cZ), c, ks, kd);
+        BufferedImage image = new BufferedImage(250, 250, BufferedImage.TYPE_INT_RGB);
+        image = repaint(image, ltm);
+        drawingComponent.bi = image;
+        drawingComponent.repaint();
       }
     });
 
     JSpinner positionsSpinner = new JSpinner(positionModel);
     JSpinner materialTypeSpinner = new JSpinner(materialTypeModel);
-
-    // b.setBounds(20, 270, 60, 40);
 
     JPanel p = new JPanel();
     p.setBounds(20, 270, 60, 40);
