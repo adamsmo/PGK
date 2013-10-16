@@ -24,49 +24,16 @@ public abstract class Cube extends Object3D {
 
   public List<Edge2D> getEdge2D(double startViewvingDistance) {
     ArrayList<Edge2D> edges2d = new ArrayList<Edge2D>();
-//    cutProtrudingEdges(startViewvingDistance);
     for (Edge3D e : edges) {
-//      if (e.isDrawable() == false) {
-//        continue;
-//      }
-//      if (e.getMiddleCut() == null) {
         Point3D startProjection = calculateCutPoint(new Edge3D(e.getStart(), new Point3D(0, 0, 0), null, false),
               startViewvingDistance);
         Point3D endProjection = calculateCutPoint(new Edge3D(e.getEnd(), new Point3D(0, 0, 0), null, false),
               startViewvingDistance);
         edges2d.add(new Edge2D(new Point2D(startProjection.getX(), startProjection.getY(), e.getStart().getZ()),
               new Point2D(endProjection.getX(), endProjection.getY(), e.getEnd().getZ())));
-        continue;
-//      }
-//      if (e.getStart().getZ() < startViewvingDistance) {
-//        Point3D endProjection = calculateCutPoint(new Edge3D(e.getEnd(), new Point3D(0, 0, 0), null, false),
-//              startViewvingDistance);
-//        edges2d.add(new Edge2D(new Point2D(e.getMiddleCut().getX(), e.getMiddleCut().getY(), e.getStart().getZ()),
-//              new Point2D(endProjection.getX(), endProjection.getY(), e.getEnd().getZ())));
-//        continue;
-//      } else if (e.getEnd().getZ() < startViewvingDistance) {
-//        Point3D startProjection = calculateCutPoint(new Edge3D(e.getStart(), new Point3D(0, 0, 0), null, false),
-//              startViewvingDistance);
-//        edges2d.add(new Edge2D(new Point2D(startProjection.getX(), startProjection.getY(), e.getStart().getZ()),
-//              new Point2D(e.getMiddleCut().getX(), e.getMiddleCut().getY(), e.getEnd().getZ())));
-//        continue;
-//      }
-//
-//      throw new RuntimeException("nie powinno nigdy tu wejsc!!!!!");
     }
 
     return edges2d;
-  }
-
-  public List<Edge2D> getEdge2DNormalized(double startViewvingDistance, int resX, int resY) {
-    List<Edge2D> edges = getEdge2D(startViewvingDistance);
-    List<Edge2D> normalizedEdges = new ArrayList<Edge2D>();
-
-    for (Edge2D e : edges) {
-      normalizedEdges.add(normalizeEdge(resX, resY, e));
-    }
-
-    return normalizedEdges;
   }
 
   public List<Edge2D> getEdge2DNormalizedScaled(int startViewvingDistance, int resX, int resY, int zoom) {
@@ -109,26 +76,6 @@ public abstract class Cube extends Object3D {
     es.getStart().setDepth(e.getStart().getDepth());
     es.getEnd().setDepth(e.getEnd().getDepth());
     return es;
-  }
-
-  private void cutProtrudingEdges(double startViewvingDistance) {
-    for (Edge3D e3D : edges) {
-      if (e3D.getStart().getZ() > startViewvingDistance && e3D.getEnd().getZ() > startViewvingDistance) {
-        e3D.setMiddleCut(null);
-        e3D.setDrawable(true);
-        continue;
-      }
-      if (e3D.getStart().getZ() <= startViewvingDistance && e3D.getEnd().getZ() <= startViewvingDistance) {
-        e3D.setMiddleCut(null);
-        e3D.setDrawable(false);
-        continue;
-      }
-      if (e3D.getStart().getZ() <= startViewvingDistance || e3D.getEnd().getZ() <= startViewvingDistance) {
-        e3D.setMiddleCut(calculateCutPoint(e3D, startViewvingDistance));
-        e3D.setDrawable(true);
-        continue;
-      }
-    }
   }
 
   public Cube(Point3D center, double height, double width, double depth) {

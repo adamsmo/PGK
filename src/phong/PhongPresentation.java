@@ -25,7 +25,7 @@ public class PhongPresentation {
       for (int y = 0; y < picture[x].length; y++) {
         Color c;
         if (picture[x][y] == 0) {
-          c = new Color(0, 0, 200);
+          c = new Color(10, 54, 109);
         } else {
           c = new Color(picture[x][y], picture[x][y], picture[x][y]);
         }
@@ -42,8 +42,6 @@ public class PhongPresentation {
     for (int x = 0; x < picture.length; x++) {
       for (int y = 0; y < picture[x].length; y++) {
         result[x][y] = (int) (picture[x][y] * factor);
-        if (result[x][y] > 0) {
-        }
         if (result[x][y] > 255) {
           result[x][y] = 255;
         } else if (result[x][y] < 0) {
